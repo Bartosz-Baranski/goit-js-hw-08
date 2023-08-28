@@ -33,32 +33,22 @@ function galleryCreate() {
 
   galleryImg.append(...galleryItem);
 }
-// galleryImg.addEventListener('click', e => {
-//   e.preventDefault();
-//   if (e.target.nodeName !== 'IMG') {
-//     return;
-//   }
-//   const keyListener = ({ key }) => {
-//     if (key === 'Escape') {
-//       instance.close();
-//     }
-//   };
-
-//   const instance = basicLightbox.create(
-//     `<img src="${e.target.dataset.source}">`,
-//     {
-//       onShow: instance => {
-//         document.addEventListener('keydown', keyListener);
-//       },
-//       onClose: instance => {
-//         document.removeEventListener('keydown', keyListener);
-//       },
-//     }
-//   );
-
-//   instance.show();
-// });
-
 galleryCreate();
-console.log(simpleLightbox);
+
+var lightbox = new SimpleLightbox('.gallery li a', {
+  captionsData: 'alt',
+  captionPosition: 'outside',
+  captionDelay: 250,
+  disableScroll: true,
+});
+function openLightbox(e) {
+  e.preventDeafault();
+  if (e.taret.nodeName !== 'IMG') {
+    return;
+  }
+  lightbox.open(e.target);
+}
+
+console.log(galleryCreate);
+// console.log(simpleLightbox);
 console.log(galleryItems);
