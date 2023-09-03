@@ -5,17 +5,15 @@ const iframe = document.querySelector('#vimeo-player');
 
 const player = new Player(iframe);
 
-function saveTime(data) {
-  const { seconds } = data;
-  localStorage.setItem('videoplayer-current-time', seconds);
-  return seconds;
-}
+player.on(
+  `timeupdate`,
+  throttle(function (data) {
+    const currentTime = data.seconds;
+    localStorage.setItem(`lastTime`, currentTime);
+  }, 1000)
+);
 
-function setTime() {
-  const currentTime = JSON.parse(
-    localStorage.getItem('videoplayer-current-time')
-  );
-  player.setCurrentTime(currentTime);
+const lastTime = localStorage.getItem(`lastTime`);
+if (lastTime) {
+  player.setCurrentTime(lastTime);
 }
-player.on('timeupdate', throttle(saveTime, 1000, { leading: false }));
-window.addEventListener('load', setTime, { once: true });
